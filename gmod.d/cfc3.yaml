@@ -1,10 +1,10 @@
 logs:
-    # - type : (mandatory) type of log input source (tcp / udp / file)
-    #   port / path : (mandatory) Set port if type is tcp or udp. Set path if type is file
-    #   service : (mandatory) name of the service owning the log
-    #   source : (mandatory) attribute that defines which integration is sending the log
-    #   sourcecategory : (optional) Multiple value attribute. Can be used to refine the source attribute
-    #   tags: (optional) add tags to each log collected
+  # - type : (mandatory) type of log input source (tcp / udp / file)
+  #   port / path : (mandatory) Set port if type is tcp or udp. Set path if type is file
+  #   service : (mandatory) name of the service owning the log
+  #   source : (mandatory) attribute that defines which integration is sending the log
+  #   sourcecategory : (optional) Multiple value attribute. Can be used to refine the source attribute
+  #   tags: (optional) add tags to each log collected
 
   - type: udp
     port: 56543
@@ -20,11 +20,6 @@ logs:
         name: CompressingFragments
         pattern: >-
           ^Compressing fragments \(\d+ -> \d+ bytes\)$
-
-      - type: exclude_at_match
-        name: net_SetConVar
-        pattern: >-
-          ^Msg from \d+\.\d+\.\d+\.\d+:\d+: net_SetConVar: 1 cvars, "\w+"=".+"$
 
       - type: exclude_at_match
         name: FailedToLoad
@@ -75,16 +70,6 @@ logs:
         name: ContainsFileFrom
         pattern: >-
           ^Addon '.+?' \(\d+\) contains file from \d+: '.+?'$
-
-      - type: exclude_at_match
-        name: Boobies
-        pattern: >-
-          ^Msg from \d+\.\d+\.\d+\.\d+:\d+: boobies$
-
-      - type: exclude_at_match
-        name: Boobies
-        pattern: >-
-          ^Msg from \d+\.\d+\.\d+\.\d+:\d+: boobies$
 
       - type: exclude_at_match
         name: MultiplyDefined
@@ -242,16 +227,43 @@ logs:
         pattern: >-
           ^\d+\.\d+ \w+ :\s+\w+ : 0x.+:$
 
-      # 123888 bytes:models/props_phx/construct/metal_dome360.mdl
-      # 2501956 bytes:maps/gm_bigcity_improved_lite.bsp
+      # mem_vcollide
       # 47960 bytes BBox physics: 109 boxes
+      # 2501956 bytes:maps/gm_bigcity_improved_lite.bsp
+      # 123888 bytes:models/props_phx/construct/metal_dome360.mdl
       - type: exclude_at_match
         name: MemVCollide
         pattern: >-
           ^\s+\d+ bytes[\s:].*$
 
+      # net_showudp
+      # UDP -> 127.0.0.1: sz=   48 seq=    2 ack=   28 rel=0 ch=1 tm=739.515930 rt=743.698853
+      # UDP <- 127.0.0.1:27005: sz=61 seq=28 ack=1 rel=0 ch=1, tm=739.515940 rt=743.698364 wire=61
+      - type: exclude_at_match
+        name: NetShowUDP
+        pattern: >-
+          ^UDP [\<\-\>]{2}.*$
+
+      # net_showudp_wire
+      # UDP -> 127.0.0.1: sz=   48 seq=    2 ack=   28 rel=0 ch=1 tm=739.515930 rt=743.698853
+      # UDP <- 127.0.0.1:27005: sz=61 seq=28 ack=1 rel=0 ch=1, tm=739.515940 rt=743.698364 wire=61
+      - type: exclude_at_match
+        name: NetShowUDPWire
+        pattern: >-
+          ^WIRE:\s+UDP\s+.*$
+
+      # net_showmsg
+      # Msg from 127.0.0.1:27005: Boobies
+      # Msg from 127.0.0.1:27005: net_Tick: tick 252498
+      # Msg from 127.0.0.1:27005: clc_Move: backup 4, new 2, bytes 31
+      - type: exclude_at_match
+        name: MsgFrom
+        pattern: >-
+          ^Msg from \d.*$
+
       # ADDON CONFIG STARTS HERE
       # (just change the addons you idiot)
+
       - type: exclude_at_match
         name: AdvDupe2UnsupportedType
         pattern: >-
