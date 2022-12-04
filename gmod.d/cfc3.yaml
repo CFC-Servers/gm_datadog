@@ -259,7 +259,7 @@ logs:
       - type: exclude_at_match
         name: MsgFrom
         pattern: >-
-          ^Msg from \d.*$
+          ^Msg from .*$
 
       # ADDON CONFIG STARTS HERE
       # (just change the addons you idiot)
