@@ -261,6 +261,13 @@ logs:
         pattern: >-
           ^Msg from .*$
 
+      # Math Counter train1_velocitymathxy_1 ignoring SETVALUE because it is disabled
+      # Math Counter train1_set_speed_blocking3 ignoring SETVALUE because it is disabled
+      - type: exclude_at_match
+        name: MathCounter
+        pattern: >-
+          ^Math Counter .*$
+
       # ADDON CONFIG STARTS HERE
       # (just change the addons you idiot)
 
