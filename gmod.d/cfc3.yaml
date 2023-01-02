@@ -268,6 +268,14 @@ logs:
         pattern: >-
           ^Math Counter .*$
 
+      # Simple Timer    Time Left: 48.560547, @lua_run (line 1)
+      # Timer 'CFC_Earmuffs_GroomThrottle'      Time Left: 3.439453, Reps Left: -1, Paused: 0, @addons/blah/blah.lua (line 53)
+      # Timer 'CFC_GroomFormSubmissions'        Time Left: 43.439453, Reps Left: -1, Paused: 0, @addons/blah/blah.lua (line 37)
+      - type: exclude_at_match
+        name: TimerDump
+        pattern: >-
+          ^\s+(?:Simple )?Timer.*?$
+
       # ADDON CONFIG STARTS HERE
       # (just change the addons you idiot)
 
