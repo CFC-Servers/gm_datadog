@@ -276,6 +276,18 @@ logs:
         pattern: >-
           ^\s+(?:Simple )?Timer.*?$
 
+      # Added sound/snd_jack_turretmissilelaunch_far.mp3 to resource!
+      - type: exclude_at_match
+        name: AddedResource
+        pattern: >-
+          ^Added .*? to resource!$
+
+      # [resource.AddFile] File models/weapons/w_clayjore.ani didn't exist!
+      - type: exclude_at_match
+        name: ResourceAddFileMiss
+        pattern: >-
+          ^\[resource.AddFile.*\] File .*? didn't exist!$
+
       # ADDON CONFIG STARTS HERE
       # (just change the addons you idiot)
 
