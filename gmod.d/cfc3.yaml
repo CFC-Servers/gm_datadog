@@ -137,6 +137,11 @@ logs:
           ^Warning: NULL Return from GetBestSound$
 
       - type: exclude_at_match
+        name: TrafficBlocked
+        pattern: >-
+          ^Traffic from .*?$
+
+      - type: exclude_at_match
         name: DataTableWarning
         pattern: >-
           ^DataTable warning: .*$
