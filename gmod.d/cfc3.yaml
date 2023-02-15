@@ -81,6 +81,12 @@ logs:
         pattern: >-
           ^\s*?\d+\. .+ - .*?:-?\d+
 
+      # [Proper Clipping] lua/autorun/server/proper_clipping.lua:236: attempt to get length of field 'ClipData' (a nil value)
+      - type: exclude_at_match
+        name: LuaErrorHead
+        pattern: >-
+          ^\[.*?\] lua\/.*?\.lua:\d+: .*?$
+
       - type: exclude_at_match
         name: RotMatrix
         pattern: >-
@@ -209,10 +215,17 @@ logs:
           ^ERROR: Tried to SetParentAttachmentMaintainOffset for entity \w+ \(\w+\), but it has no attachment named \w+\.$
 
       # [ERROR] Tried to use a NULL entity!
+      # [ERROR] gamemodes/base/gamemode/cl_targetid.lua:23 'TargetID' isn't a valid font
       - type: exclude_at_match
-        name: TriedUseNULLEnt
+        name: ErrorPrefix
         pattern: >-
-          ^\[ERROR\] Tried to use a NULL entity!$
+          ^\[ERROR\].*?$
+
+        # [[CW 2.0] RPG-7] lua/entities/ent_ins2rpghvatrocket/init.lua:193: Tried to use a NULL entity!
+      - type: exclude_at_match
+        name: NullEntity
+        pattern: >-
+          ^.*? Tried to use a NULL entity!$
 
       # Warning: Player 21 has 26604 queued usermessages!
       - type: exclude_at_match
@@ -256,6 +269,12 @@ logs:
         name: NetShowUDPWire
         pattern: >-
           ^WIRE:\s+UDP\s+.*$
+
+      # NET_GetLong:  Split packet from : with invalid split size (number / count ) where size is out of valid range [564 - 1248]
+      - type: exclude_at_match
+        name: NETGetLong
+        pattern: >-
+          ^NET_GetLong.*?$
 
       # net_showmsg
       # Msg from 127.0.0.1:27005: Boobies
