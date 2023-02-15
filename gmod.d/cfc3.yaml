@@ -81,6 +81,13 @@ logs:
         pattern: >-
           ^\s*?\d+\. .+ - .*?:-?\d+
 
+      # 4: Line 142	"Func"		addons/acf-3/lua/acf/entities/ammo_types/ap.lua
+      # 6: Line 269	"DoBulletsFlight"	addons/acf-3/lua/acf/ballistics/ballistics_sv.lua
+      - type: exclude_at_match
+        name: ErrorLineNumber
+        pattern: >-
+          ^\s*?\d+: Line \d+.*?$
+
       # [Proper Clipping] lua/autorun/server/proper_clipping.lua:236: attempt to get length of field 'ClipData' (a nil value)
       - type: exclude_at_match
         name: LuaErrorHead
