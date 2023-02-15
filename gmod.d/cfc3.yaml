@@ -89,6 +89,7 @@ logs:
           ^\s*?\d+: Line \d+.*?$
 
       # [Proper Clipping] lua/autorun/server/proper_clipping.lua:236: attempt to get length of field 'ClipData' (a nil value)
+      # [acf-3] addons/acf-3/lua/entities/acf_armor/shared.lua:63: bad argument #2 to '__sub' (Vector expected, got nil)
       - type: exclude_at_match
         name: LuaErrorHead
         pattern: >-
