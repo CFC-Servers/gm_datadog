@@ -92,7 +92,7 @@ logs:
       - type: exclude_at_match
         name: LuaErrorHead
         pattern: >-
-          ^\[.*?\] lua\/.*?\.lua:\d+: .*?$
+          ^\[.*?\] .*?\.lua:\d+: .*?$
 
       - type: exclude_at_match
         name: RotMatrix
