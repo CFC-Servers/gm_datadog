@@ -268,7 +268,7 @@ logs:
       - type: exclude_at_match
         name: NetShowUDP
         pattern: >-
-          ^UDP [\<\-\>]{2}.*$
+          ^UDP .*?$
 
       # net_showudp_wire
       # UDP -> 127.0.0.1: sz=   48 seq=    2 ack=   28 rel=0 ch=1 tm=739.515930 rt=743.698853
