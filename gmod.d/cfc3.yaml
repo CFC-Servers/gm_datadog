@@ -324,6 +324,11 @@ logs:
       # (just change the addons you idiot)
 
       - type: exclude_at_match
+        name: ServerSecure
+        pattern: >-
+          ^\[ServerSecure\] .*?$
+
+      - type: exclude_at_match
         name: AdvDupe2UnsupportedType
         pattern: >-
           ^\[AdvDupe2\] (?:Entity )?ClassArg (?:table with key )?".*?" has unsupported value of type ".*?"!$
