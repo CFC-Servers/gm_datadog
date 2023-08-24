@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  datadog:
+    image: gcr.io/datadoghq/agent:7
+
+    environment:
+      - DD_LOGS_ENABLED=true
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_SITE=${DD_SITE:-datadoghq.com}
+      - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
+      - DD_API_KEY=${DD_API_KEY:?No API Key provided}
+      - DD_HOSTNAME=${DD_HOSTNAME:?No Hostname provided}
+
+    expose:
+      - "56543/udp"
+
+    volumes:
+      - ./gmod.d:/etc/datadog-agent/conf.d/gmod.d/:ro
+
+  wisp-puller:
+    build: ./puller
+    environment:
+      - DOMAIN=$WISP_DOMAIN
+      - UUID=$WISP_UUID
+      - TOKEN=$WISP_TOKEN

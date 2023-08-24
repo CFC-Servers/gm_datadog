@@ -8,7 +8,7 @@ logs:
 
   - type: udp
     port: 56543
-    service: cfc3
+    service: cfctest
     source: gmod
     log_processing_rules:
       - type: exclude_at_match
