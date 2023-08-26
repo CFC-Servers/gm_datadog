@@ -24,3 +24,6 @@ services:
       - DOMAIN=$WISP_DOMAIN
       - UUID=$WISP_UUID
       - TOKEN=$WISP_TOKEN
+
+    volumes:
+      - ./puller/logs:/app/logs

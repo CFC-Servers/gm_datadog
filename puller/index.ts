@@ -3,10 +3,13 @@ const winston = require("winston");
 const { WispInterface } = require("./wisp");
 
 const logger = winston.createLogger({
-  format: winston.format.simple(),
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.simple()
+  ),
   transports: [
     new winston.transports.Console(),
-    new winston.transports.File({ filename: "server.log" })
+    new winston.transports.File({ filename: "/app/logs/server.log" })
   ]
 });
 
