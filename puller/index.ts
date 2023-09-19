@@ -1,17 +1,5 @@
-const dgram = require("dgram");
-const winston = require("winston");
+import dgram from "dgram"
 import { WispInterface } from "wispjs";
-
-const logger = winston.createLogger({
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.simple()
-  ),
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "/app/logs/server.log" })
-  ]
-});
 
 (async () => {
   const domain = process.env.DOMAIN;
@@ -30,11 +18,11 @@ const logger = winston.createLogger({
 
   const ddClient = dgram.createSocket("udp4");
   const receiveMessage = (message: string) => {
-    logger.info(`Console: ${message}`);
+    console.log(`Console: ${message}`);
 
     ddClient.send(message, 0, message.length, 56543, "datadog", (err: any) => {
       if (err) {
-        logger.error(`Error sending message to DataDog: ${err}`);
+        console.error(`Error sending message to DataDog: ${err}`);
       }
     });
   }
