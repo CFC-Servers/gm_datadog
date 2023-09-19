@@ -1,0 +1,339 @@
+logs:
+  # - type : (mandatory) type of log input source (tcp / udp / file)
+  #   port / path : (mandatory) Set port if type is tcp or udp. Set path if type is file
+  #   service : (mandatory) name of the service owning the log
+  #   source : (mandatory) attribute that defines which integration is sending the log
+  #   sourcecategory : (optional) Multiple value attribute. Can be used to refine the source attribute
+  #   tags: (optional) add tags to each log collected
+
+  - type: udp
+    port: 56544
+    service: cfcttt
+    source: gmod
+    log_processing_rules:
+      - type: exclude_at_match
+        name: GetPhysicsObjectNum
+        pattern: >-
+          ^GetPhysicsObjectNum - Requested object is higher than the total number of objects!$
+
+      - type: exclude_at_match
+        name: CompressingFragments
+        pattern: >-
+          ^Compressing fragments \(\d+ -> \d+ bytes\)$
+
+      - type: exclude_at_match
+        name: FailedToLoad
+        pattern: >-
+          ^#Failed to load .+: \(null\)$
+
+      - type: exclude_at_match
+        name: Duplicate
+        pattern: >-
+          ^#DUPLICATE: \[.+\]$
+
+      - type: exclude_at_match
+        name: ShaderDLL
+        pattern: >-
+          ^#Couldn't load shader dll: game_shader_generic_garrysmod\.so#ConVarRef mat_dxlevel doesn't point to an existing ConVar$
+
+      - type: exclude_at_match
+        name: ProcessingAddon
+        pattern: >-
+          ^Processing addon \d+: .*?\.\.\.$
+
+      - type: exclude_at_match
+        name: Matched
+        pattern: >-
+          ^Mounted!$
+
+      - type: exclude_at_match
+        name: AddingFilesystemAddon
+        pattern: >-
+          ^Adding Filesystem Addon '.+'$
+
+      - type: exclude_at_match
+        name: UnknownCommand
+        pattern: >-
+          ^Unknown command "\w+"$
+
+      - type: exclude_at_match
+        name: SolidVphysics
+        pattern: >-
+          ^SOLID_VPHYSICS static prop with no vphysics model! \(.+\)$
+
+      - type: exclude_at_match
+        name: ExtractingBSP
+        pattern: >-
+          ^Extracting BSP to map\.pack in order to mount BSP embedded content\.\.\.$
+
+      - type: exclude_at_match
+        name: ContainsFileFrom
+        pattern: >-
+          ^Addon '.+?' \(\d+\) contains file from \d+: '.+?'$
+
+      - type: exclude_at_match
+        name: MultiplyDefined
+        pattern: >-
+          ^Error! (?:Flag|Variable) ".+?" is multiply defined in material ".+?"!$
+
+      - type: exclude_at_match
+        name: ErrorStackTrace
+        pattern: >-
+          ^\s*?\d+\. .+ - .*?:-?\d+
+
+      # 4: Line 142	"Func"		addons/acf-3/lua/acf/entities/ammo_types/ap.lua
+      # 6: Line 269	"DoBulletsFlight"	addons/acf-3/lua/acf/ballistics/ballistics_sv.lua
+      - type: exclude_at_match
+        name: ErrorLineNumber
+        pattern: >-
+          ^\s*?\d+: Line \d+.*?$
+
+      # [Proper Clipping] lua/autorun/server/proper_clipping.lua:236: attempt to get length of field 'ClipData' (a nil value)
+      # [acf-3] addons/acf-3/lua/entities/acf_armor/shared.lua:63: bad argument #2 to '__sub' (Vector expected, got nil)
+      - type: exclude_at_match
+        name: LuaErrorHead
+        pattern: >-
+          ^\[.*?\] .*?\.lua:\d+: .*?$
+
+      - type: exclude_at_match
+        name: RotMatrix
+        pattern: >-
+          ^do_constraint_system: Couldn't invert rot matrix!$
+
+      - type: exclude_at_match
+        name: ServerLogUlx
+        pattern: >-
+          ^ServerLog: \[ULX\] .*$
+
+      - type: exclude_at_match
+        name: LUlxEvent
+        pattern: >-
+          ^L \d+\/\d+\/\d+ - \d+:\d+:\d+: \[ULX\] .*<STEAM_[0-5]:[01]:\d+> (?:spawned|spawned\/gave himself|used the tool|spawned\/used) .*$
+
+      - type: exclude_at_match
+        name: Giving
+        pattern: >-
+          ^Giving .*? a \w+$
+
+      - type: exclude_at_match
+        name: CSoundPatch
+        pattern: >-
+          ^CSoundPatch::Update:\s+Removing CSoundPatch \(.+?\) with NULL EHandle$
+
+      - type: exclude_at_match
+        name: CSoundEmitterBase
+        pattern: >-
+          ^CSoundEmitterSystemBase::GetParametersForSound:  No such sound.*?$
+
+      - type: exclude_at_match
+        name: DroppedFromServer
+        pattern: >-
+          ^Dropped .*? from server \(.*?\)$
+
+      - type: exclude_at_match
+        name: PlayerHasLeft
+        pattern: >-
+          ^Player .*? has left the server\. \(.*?\)$
+
+      - type: exclude_at_match
+        name: DroppedPackets
+        pattern: >-
+          ^\d+\.\d+\.\d+\.\d+:\d+:Dropped \d+ packets at \d+$
+
+      - type: exclude_at_match
+        name: CombatStateError
+        pattern: >-
+          ^\*\*ERROR: Combat State with no enemy! slamming to ALERT$
+
+      - type: exclude_at_match
+        name: NullBestSound
+        pattern: >-
+          ^Warning: NULL Return from GetBestSound$
+
+      - type: exclude_at_match
+        name: TrafficBlocked
+        pattern: >-
+          ^Traffic from .*?$
+
+      - type: exclude_at_match
+        name: DataTableWarning
+        pattern: >-
+          ^DataTable warning: .*$
+
+      - type: exclude_at_match
+        name: CreateEvent
+        pattern: >-
+          ^CreateEvent: .*?$
+
+      - type: exclude_at_match
+        name: MathCounter
+        pattern: >-
+          ^Math Counter .*?$
+
+      - type: exclude_at_match
+        name: BadSetLocalOrigin
+        pattern: >-
+          ^Bad SetLocalOrigin.*?$
+
+      - type: exclude_at_match
+        name: OutOfOrderPacket
+        pattern: >-
+          ^.*?:\d+:out of order packet \d+ at \d+$
+
+      - type: exclude_at_match
+        name: GrowingBuffer
+        pattern: >-
+          ^.*?:\d+: Growing Buffer: \d+ -> \d+ \(\d+ retained\)$
+
+      - type: exclude_at_match
+        name: EmptyLuaError
+        pattern: >-
+          ^L \d+/\d+/\d+ - \d+:\d+:\d+: Lua Error:$
+
+      - type: exclude_at_match
+        name: EmptyCLLuaError
+        pattern: >-
+          ^\[.*?\] Lua Error:$
+
+      - type: exclude_at_match
+        name: ErrorVertexFile
+        pattern: >-
+          ^Error Vertex File .*?$
+
+      - type: exclude_at_match
+        name: ErrorLoadingExecuting
+        pattern: >-
+          ^Error (?:loading|executing) .*?$
+
+      - type: exclude_at_match
+        name: ErrorSquadTooBig
+        pattern: >-
+          ^Error!! Squad .*? is too big!!! Replacing last member$
+
+      # KeyValues Error: RecursiveLoadFromBuffer:  got NULL key in file materials/models/qq_rec/v_rif_xm8/front_sight.vmt
+      - type: exclude_at_match
+        name: KeyValuesError
+        pattern: >-
+          ^KeyValues Error: RecursiveLoadFromBuffer:.*?$
+
+      # ERROR: Tried to SetParentAttachmentMaintainOffset for entity gmod_wire_hologram (gmod_wire_hologram), but it has no attachment named spine.
+      - type: exclude_at_match
+        name: SetParentAttachmentMaintainOffset
+        pattern: >-
+          ^ERROR: Tried to SetParentAttachmentMaintainOffset for entity \w+ \(\w+\), but it has no attachment named \w+\.$
+
+      # [ERROR] Tried to use a NULL entity!
+      # [ERROR] gamemodes/base/gamemode/cl_targetid.lua:23 'TargetID' isn't a valid font
+      - type: exclude_at_match
+        name: ErrorPrefix
+        pattern: >-
+          ^\[ERROR\].*?$
+
+        # [[CW 2.0] RPG-7] lua/entities/ent_ins2rpghvatrocket/init.lua:193: Tried to use a NULL entity!
+      - type: exclude_at_match
+        name: NullEntity
+        pattern: >-
+          ^.*? Tried to use a NULL entity!$
+
+      # Warning: Player 21 has 26604 queued usermessages!
+      - type: exclude_at_match
+        name: HasQueuedUserMessages
+        pattern: >-
+          ^Warning: Player \d+ has \d+ queued usermessages!$
+
+      # 127.0.0.1:60386:Too many dropped packets (41479) at 450416
+      - type: exclude_at_match
+        name: TooManyDroppedPackets
+        pattern: >-
+          ^.*?:Too many dropped packets \(\d+\) at \d+$
+
+      # 1.74 KB :    ModelData : 0x03200000, 0x0x1a050f80, 0x0x10a0b : studiohdr - models/left4dead/vehicles/wheel_tractor01_rear.mdl :
+      - type: exclude_at_match
+        name: CachePrintLRU
+        pattern: >-
+          ^\d+\.\d+ \w+ :\s+\w+ : 0x.+:$
+
+      # mem_vcollide
+      # 47960 bytes BBox physics: 109 boxes
+      # 2501956 bytes:maps/gm_bigcity_improved_lite.bsp
+      # 123888 bytes:models/props_phx/construct/metal_dome360.mdl
+      - type: exclude_at_match
+        name: MemVCollide
+        pattern: >-
+          ^\s+\d+ bytes[\s:].*$
+
+      # net_showudp
+      # UDP -> 127.0.0.1: sz=   48 seq=    2 ack=   28 rel=0 ch=1 tm=739.515930 rt=743.698853
+      # UDP <- 127.0.0.1:27005: sz=61 seq=28 ack=1 rel=0 ch=1, tm=739.515940 rt=743.698364 wire=61
+      - type: exclude_at_match
+        name: NetShowUDP
+        pattern: >-
+          ^UDP .*?$
+
+      # net_showudp_wire
+      # UDP -> 127.0.0.1: sz=   48 seq=    2 ack=   28 rel=0 ch=1 tm=739.515930 rt=743.698853
+      # UDP <- 127.0.0.1:27005: sz=61 seq=28 ack=1 rel=0 ch=1, tm=739.515940 rt=743.698364 wire=61
+      - type: exclude_at_match
+        name: NetShowUDPWire
+        pattern: >-
+          ^WIRE:\s+UDP\s+.*$
+
+      # NET_GetLong:  Split packet from : with invalid split size (number / count ) where size is out of valid range [564 - 1248]
+      - type: exclude_at_match
+        name: NETGetLong
+        pattern: >-
+          ^NET_GetLong.*?$
+
+      # net_showmsg
+      # Msg from 127.0.0.1:27005: Boobies
+      # Msg from 127.0.0.1:27005: net_Tick: tick 252498
+      # Msg from 127.0.0.1:27005: clc_Move: backup 4, new 2, bytes 31
+      - type: exclude_at_match
+        name: MsgFrom
+        pattern: >-
+          ^Msg from .*$
+
+      # Math Counter train1_velocitymathxy_1 ignoring SETVALUE because it is disabled
+      # Math Counter train1_set_speed_blocking3 ignoring SETVALUE because it is disabled
+      - type: exclude_at_match
+        name: MathCounter
+        pattern: >-
+          ^Math Counter .*$
+
+      # Simple Timer    Time Left: 48.560547, @lua_run (line 1)
+      # Timer 'CFC_Earmuffs_GroomThrottle'      Time Left: 3.439453, Reps Left: -1, Paused: 0, @addons/blah/blah.lua (line 53)
+      # Timer 'CFC_GroomFormSubmissions'        Time Left: 43.439453, Reps Left: -1, Paused: 0, @addons/blah/blah.lua (line 37)
+      - type: exclude_at_match
+        name: TimerDump
+        pattern: >-
+          ^\s+(?:Simple )?Timer.*?$
+
+      # Added sound/snd_jack_turretmissilelaunch_far.mp3 to resource!
+      - type: exclude_at_match
+        name: AddedResource
+        pattern: >-
+          ^Added .*? to resource!$
+
+      # [resource.AddFile] File models/weapons/w_clayjore.ani didn't exist!
+      - type: exclude_at_match
+        name: ResourceAddFileMiss
+        pattern: >-
+          ^\[resource.AddFile.*\] File .*? didn't exist!$
+
+      # ADDON CONFIG STARTS HERE
+      # (just change the addons you idiot)
+
+      - type: exclude_at_match
+        name: ServerSecure
+        pattern: >-
+          ^\[ServerSecure\] .*?$
+
+      - type: exclude_at_match
+        name: AdvDupe2UnsupportedType
+        pattern: >-
+          ^\[AdvDupe2\] (?:Entity )?ClassArg (?:table with key )?".*?" has unsupported value of type ".*?"!$
+
+      - type: exclude_at_match
+        name: ApplyDupeInfo
+        pattern: >-
+          ^ApplyDupeInfo: Error,.*$

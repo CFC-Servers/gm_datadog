@@ -11,6 +11,9 @@ import { WispInterface } from "wispjs";
   const token = process.env.TOKEN;
   if (!token) { throw new Error("TOKEN environment variable not set"); }
 
+  const ddPort = process.env.DD_PORT;
+  if (!ddPort) { throw new Error("DD_PORT environment variable not set"); }
+
   const wisp = new WispInterface(domain, uuid, token);
   const ghPAT = "";
 
@@ -20,7 +23,7 @@ import { WispInterface } from "wispjs";
   const receiveMessage = (message: string) => {
     console.log(`Console: ${message}`);
 
-    ddClient.send(message, 0, message.length, 56543, "datadog", (err: any) => {
+    ddClient.send(message, 0, message.length, parseInt(ddPort, 10), "datadog", (err: any) => {
       if (err) {
         console.error(`Error sending message to DataDog: ${err}`);
       }
