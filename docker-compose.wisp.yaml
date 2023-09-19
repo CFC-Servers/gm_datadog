@@ -25,7 +25,7 @@ services:
     build: ./puller
     environment:
       - DOMAIN=$WISP_DOMAIN
-      - UUID=$WISP_UUID
+      - UUID=f0dcf4d9
       - TOKEN=$WISP_TOKEN
       - DD_PORT=56543
 
@@ -33,6 +33,6 @@ services:
     build: ./puller
     environment:
       - DOMAIN=$WISP_DOMAIN
-      - UUID=$WISP_UUID
+      - UUID=12779d0a
       - TOKEN=$WISP_TOKEN
       - DD_PORT=56544
