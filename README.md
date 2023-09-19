@@ -60,10 +60,12 @@ Also, if your config is broken or your regex is too aggressive, logs simply won'
 
 ### Adding a new server
 1. Determine a new port. Current port mappings:
- - | **Server** | **Port** |
- - |------------|----------|
- - | CFC3       | 56543    |
- - | CFCTTT     | 56544    |
+
+| **Server** | **Port** |
+|------------|----------|
+| CFC3       | 56543    |
+| CFCTTT     | 56544    |
+
 2. Make a new file in `gmod.d/` called `<name of your server>.yaml`.
 3. Fill it with the following:
 ```yaml
