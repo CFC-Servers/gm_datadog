@@ -1,6 +1,6 @@
 const dgram = require("dgram");
 const winston = require("winston");
-const { WispInterface } = require("./wisp");
+const { WispInterface } = require("wispjs");
 
 const logger = winston.createLogger({
   format: winston.format.combine(
@@ -23,8 +23,10 @@ const logger = winston.createLogger({
   const token = process.env.TOKEN;
   if (!token) { throw new Error("TOKEN environment variable not set"); }
 
-  const wisp = new WispInterface(domain, uuid, token, logger);
-  await wisp.connect();
+  const wisp = new WispInterface(domain, uuid, token);
+  const ghPAT = "";
+
+  await wisp.connect(ghPAT);
 
   const ddClient = dgram.createSocket("udp4");
   const receiveMessage = (message: string) => {
@@ -37,5 +39,5 @@ const logger = winston.createLogger({
     });
   }
 
-  wisp.receiveConsoleMessage(receiveMessage);
+  wisp.socket.addConsoleListener(receiveMessage);
 })();

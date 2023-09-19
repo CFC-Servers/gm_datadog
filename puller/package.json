@@ -13,7 +13,8 @@
     "dgram": "^1.0.1",
     "socket.io-client": "^4.7.2",
     "typescript": "^5.1.6",
-    "winston": "^3.10.0"
+    "winston": "^3.10.0",
+    "wispjs": "github:CFC-Servers/wispjs"
   },
   "devDependencies": {
     "@types/node": "^20.5.4"
