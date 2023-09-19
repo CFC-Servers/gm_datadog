@@ -57,3 +57,30 @@ So, be smarter than me, but this is roughly what I changed, around line `111` _(
 When I restart the datadog container after making changes, it seems like the logging breaks, so I manually re-run the `pipe-pane` command from before.
 
 Also, if your config is broken or your regex is too aggressive, logs simply won't stream to your agent and the only way to know is watching the datadog interface.
+
+### Adding a new server
+1. Determine a new port. Current port mappings:
+ - | **Server** | **Port** |
+ - |------------|----------|
+ - | CFC3       | 56543    |
+ - | CFCTTT     | 56544    |
+2. Make a new file in `gmod.d/` called `<name of your server>.yaml`.
+3. Fill it with the following:
+```yaml
+logs:
+  - type: udp
+    port: <the next port>
+    service: <your server name>
+    source: gmod
+    log_processing_rules:
+      - type: exclude_at_match
+        name: PascalCaseRuleName
+        pattern: >-
+          ^Regex pattern matching a line you want to exclude$
+```
+ - You can add as many rules in the `log_processing_rules` as you'd like.
+4. Add a new `expose` line in the `datadog` service in the `docker-compose.wisp.yaml` file
+5. Copy the `wisp-puller-cfc3` service section in `docker-compose.wisp.yaml`
+ - 1. Change the `UUID` environment variable of your new service to the UUID of your panel
+ - 2. Change the `DD_PORT` environment variable to your selected port from a previous step
+6. Update this README to include your new port mapping in the port map table
