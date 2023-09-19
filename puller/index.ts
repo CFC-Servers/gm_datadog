@@ -1,6 +1,6 @@
 const dgram = require("dgram");
 const winston = require("winston");
-const { WispInterface } = require("wispjs");
+import { WispInterface } from "wispjs";
 
 const logger = winston.createLogger({
   format: winston.format.combine(
