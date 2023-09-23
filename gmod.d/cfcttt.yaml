@@ -320,6 +320,32 @@ logs:
         pattern: >-
           ^\[resource.AddFile.*\] File .*? didn't exist!$
 
+      # L 09/23/2023 - 07:00:02: 00:09.97 - DMG: 	 rayray [innocent] damaged Generic Ricochet Player [traitor] for 13 dmg
+      # L 09/23/2023 - 07:03:33: 01:03.83 - DMG: 	 32x [innocent] damaged Bing Soy [innocent] for 25 dmg
+      - type: exclude_at_match
+        name: LPrefixDamage
+        pattern: >-
+          ^L \d+\/\d+\/\d+ - \d+:\d+:\d+: \d+:\d+\.\d+ - DMG:.*$
+
+      # L 09/23/2023 - 07:04:57: 02:27.52 - KILL:	 <something/world> killed HMM [innocent]
+      # L 09/23/2023 - 07:04:57: 02:28.03 - KILL:	 <something/world> killed Generic Ricochet Player [traitor]
+      - type: exclude_at_match
+        name: LPrefixKill
+        pattern: >-
+          ^L \d+\/\d+\/\d+ - \d+:\d+:\d+: \d+:\d+\.\d+ - KILL:.*$
+
+      # ServerLog: Result: innocent win.
+      - type: exclude_at_match
+        name: ServerLogWin
+        pattern: >-
+          ^ServerLog: Result: .*? win\.$
+
+      # ServerLog: Round ended.
+      - type: exclude_at_match
+        name: ServerLogRoundEnded
+        pattern: >-
+          ^ServerLog: Round ended\.$
+
       # ADDON CONFIG STARTS HERE
       # (just change the addons you idiot)
 
