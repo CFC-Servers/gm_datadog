@@ -346,6 +346,12 @@ logs:
         pattern: >-
           ^ServerLog: Round ended\.$
 
+      # Nanny command output
+      - type: exclude_at_match
+        name: NannyCommandOutput
+        pattern: >-
+          ^nanny-.*$
+
       # ADDON CONFIG STARTS HERE
       # (just change the addons you idiot)
 

@@ -320,13 +320,14 @@ logs:
         pattern: >-
           ^\[resource.AddFile.*\] File .*? didn't exist!$
 
+      # Nanny command output
+      - type: exclude_at_match
+        name: NannyCommandOutput
+        pattern: >-
+          ^nanny-.*$
+
       # ADDON CONFIG STARTS HERE
       # (just change the addons you idiot)
-
-      - type: exclude_at_match
-        name: ServerSecure
-        pattern: >-
-          ^\[ServerSecure\] .*?$
 
       - type: exclude_at_match
         name: AdvDupe2UnsupportedType
