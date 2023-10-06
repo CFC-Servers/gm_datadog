@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install && npm install typescript -g
+RUN npm ci --omit=dev && npm install typescript -g
 
 COPY tsconfig.json tsconfig.json
 

@@ -3,7 +3,6 @@ version: "3"
 services:
   datadog:
     image: gcr.io/datadoghq/agent:7
-
     environment:
       - DD_LOGS_ENABLED=true
       - DD_PROCESS_AGENT_ENABLED=true
@@ -11,15 +10,30 @@ services:
       - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
       - DD_API_KEY=${DD_API_KEY:?No API Key provided}
       - DD_HOSTNAME=${DD_HOSTNAME:?No Hostname provided}
-
     expose:
       # CFC3
       - "56543/udp"
       # CFCTTT
       - "56544/udp"
-
     volumes:
       - ./gmod.d:/etc/datadog-agent/conf.d/gmod.d/:ro
+    networks:
+      - default
+      - datadog-agent
+
+  wisp-logs-uploader:
+    build: ./uploader
+    environment:
+      - CF_ACCOUNT_ID=${CF_ACCOUNT_ID}
+      - CF_ACCESS_KEY_ID=${CF_ACCESS_KEY_ID}
+      - CF_SECRET_ACCESS_KEY=${CF_SECRET_ACCESS_KEY}
+    expose:
+      - "3000/tcp"
+    volumes:
+      - ${LOGS_DIR:-./logs}:/app/service-logs
+    networks:
+      - default
+      - logs-upload
 
   wisp-puller-cfc3:
     build: ./puller
@@ -28,6 +42,12 @@ services:
       - UUID=f0dcf4d9
       - TOKEN=$WISP_TOKEN
       - DD_PORT=56543
+    volumes:
+      - ${LOGS_DIR:-./logs}/cfc3:/app/logs
+    networks:
+      - default
+      - datadog-agent
+      - logs-upload
 
   wisp-puller-cfcttt:
     build: ./puller
@@ -36,3 +56,13 @@ services:
       - UUID=12779d0a
       - TOKEN=$WISP_TOKEN
       - DD_PORT=56544
+    volumes:
+      - ${LOGS_DIR:-./logs}/cfcttt:/app/logs
+    networks:
+      - default
+      - datadog-agent
+      - logs-upload
+
+networks:
+  datadog-agent:
+  logs-upload:
