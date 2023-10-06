@@ -1,5 +1,5 @@
 const Koa = require("koa");
-const uploadFile = require("./uploader.js");
+const { uploadFile } = require("./uploader.js");
 
 const logsDir = "/app/service-logs";
 const app = new Koa();

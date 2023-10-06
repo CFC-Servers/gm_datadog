@@ -20,7 +20,7 @@ const S3 = new S3Client({
 });
 
 
-export const uploadFile = async (realPath, fileName) => {
+const uploadFile = async (realPath, fileName) => {
   const fileStream = fs.createReadStream(realPath);
   fileStream.on("end", () => {
     console.log("File read stream finished:", realPath);
@@ -50,3 +50,5 @@ export const uploadFile = async (realPath, fileName) => {
     fileStream.destroy();
   }
 }
+
+module.exports = { uploadFile };
