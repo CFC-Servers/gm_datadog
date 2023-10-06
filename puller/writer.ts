@@ -15,6 +15,11 @@ const rotateTransport: DailyRotateFile = new DailyRotateFile({
 
 export const logger = winston.createLogger({
   level: "info",
+  format: winston.format.combine(
+    winston.format.printf(({ _, __, message }) => {
+      return message;
+    })
+  ),
   transports: [
     rotateTransport,
     new winston.transports.Console(),
