@@ -26,16 +26,31 @@ export const logger = winston.createLogger({
   ],
 });
 
+// Logs things that we do
+const metaLogger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.printf(({ level, message, label, timestamp }) => {
+      return `${timestamp} [${label}] ${level}: ${message}`;
+    })
+  ),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "/app/logs/file-uploader.log" })
+  ],
+});
+
 rotateTransport.on("rotate", function(oldFilename, newFilename) {
-    logger.info(`Handling rotation: ${oldFilename} -> ${newFilename}`);
+    metaLogger.info(`Handling rotation: ${oldFilename} -> ${newFilename}`);
     const fileName = path.basename(oldFilename);
 
     axios.post("http://wisp-logs-uploader:3000/upload", {
         serverName: serverName,
         fileName: fileName
     }).then((result) => {
-        logger.info(`Upload request: ${result.status}`);
+        metaLogger.info(`Upload request: ${result.status}`);
     }).catch((reason) => {
-        logger.error(`Upload request failed: ${reason}`);
+        metaLogger.error(`Upload request failed: ${reason}`);
     });
 });
