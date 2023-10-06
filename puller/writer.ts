@@ -10,6 +10,7 @@ const rotateTransport: DailyRotateFile = new DailyRotateFile({
   dirname: "/app/logs",
   filename: "%DATE%.log",
   datePattern: 'YYYY-MM-DD',
+  maxFiles: "14d",
 });
 
 export const logger = winston.createLogger({
