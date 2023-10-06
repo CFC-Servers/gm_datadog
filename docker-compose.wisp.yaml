@@ -1,25 +1,25 @@
 version: "3"
 
 services:
-  datadog:
-    image: gcr.io/datadoghq/agent:7
-    environment:
-      - DD_LOGS_ENABLED=true
-      - DD_PROCESS_AGENT_ENABLED=true
-      - DD_SITE=${DD_SITE:-datadoghq.com}
-      - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
-      - DD_API_KEY=${DD_API_KEY:?No API Key provided}
-      - DD_HOSTNAME=${DD_HOSTNAME:?No Hostname provided}
-    expose:
-      # CFC3
-      - "56543/udp"
-      # CFCTTT
-      - "56544/udp"
-    volumes:
-      - ./gmod.d:/etc/datadog-agent/conf.d/gmod.d/:ro
-    networks:
-      - default
-      - datadog-agent
+  # datadog:
+  #   image: gcr.io/datadoghq/agent:7
+  #   environment:
+  #     - DD_LOGS_ENABLED=true
+  #     - DD_PROCESS_AGENT_ENABLED=true
+  #     - DD_SITE=${DD_SITE:-datadoghq.com}
+  #     - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
+  #     - DD_API_KEY=${DD_API_KEY:?No API Key provided}
+  #     - DD_HOSTNAME=${DD_HOSTNAME:?No Hostname provided}
+  #   expose:
+  #     # CFC3
+  #     - "56543/udp"
+  #     # CFCTTT
+  #     - "56544/udp"
+  #   volumes:
+  #     - ./gmod.d:/etc/datadog-agent/conf.d/gmod.d/:ro
+  #   networks:
+  #     - default
+  #     - datadog-agent
 
   wisp-logs-uploader:
     build: ./uploader
@@ -38,6 +38,7 @@ services:
   wisp-puller-cfc3:
     build: ./puller
     environment:
+      - SERVER_NAME=cfc3
       - DOMAIN=$WISP_DOMAIN
       - UUID=f0dcf4d9
       - TOKEN=$WISP_TOKEN
@@ -52,6 +53,7 @@ services:
   wisp-puller-cfcttt:
     build: ./puller
     environment:
+      - SERVER_NAME=cfcttt
       - DOMAIN=$WISP_DOMAIN
       - UUID=12779d0a
       - TOKEN=$WISP_TOKEN

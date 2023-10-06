@@ -6,4 +6,4 @@ COPY package*.json ./
 
 RUN npm ci --omit=dev
 
-CMD [ "node", "dist/index.js" ]
+CMD [ "node", "index.js" ]
