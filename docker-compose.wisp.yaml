@@ -1,25 +1,25 @@
 version: "3"
 
 services:
-  # datadog:
-  #   image: gcr.io/datadoghq/agent:7
-  #   environment:
-  #     - DD_LOGS_ENABLED=true
-  #     - DD_PROCESS_AGENT_ENABLED=true
-  #     - DD_SITE=${DD_SITE:-datadoghq.com}
-  #     - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
-  #     - DD_API_KEY=${DD_API_KEY:?No API Key provided}
-  #     - DD_HOSTNAME=${DD_HOSTNAME:?No Hostname provided}
-  #   expose:
-  #     # CFC3
-  #     - "56543/udp"
-  #     # CFCTTT
-  #     - "56544/udp"
-  #   volumes:
-  #     - ./gmod.d:/etc/datadog-agent/conf.d/gmod.d/:ro
-  #   networks:
-  #     - default
-  #     - datadog-agent
+  datadog:
+    image: gcr.io/datadoghq/agent:7
+    environment:
+      - DD_LOGS_ENABLED=true
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_SITE=${DD_SITE:-datadoghq.com}
+      - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
+      - DD_API_KEY=${DD_API_KEY:?No API Key provided}
+      - DD_HOSTNAME=${DD_HOSTNAME:?No Hostname provided}
+    expose:
+      # CFC3
+      - "56543/udp"
+      # CFCTTT
+      - "56544/udp"
+    volumes:
+      - ./gmod.d:/etc/datadog-agent/conf.d/gmod.d/:ro
+    networks:
+      - default
+      - datadog-agent
 
   wisp-logs-uploader:
     build: ./uploader

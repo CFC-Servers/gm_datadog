@@ -1,10 +1,14 @@
 const Koa = require("koa");
+const Router = require("koa-router");
+const bodyParser = require("koa-body-parser");
 const { uploadFile } = require("./uploader.js");
 
 const logsDir = "/app/service-logs";
-const app = new Koa();
 
-app.use(async function(ctx) {
+const app = new Koa();
+const router = new Router();
+
+router.post(async function(ctx) {
     console.log(`${ctx.method} ${ctx.url}`);
 
     const body = ctx.request.body;
@@ -24,4 +28,6 @@ app.use(async function(ctx) {
     ctx.response.message = "";
 });
 
+app.use(bodyParser());
+app.use(router.routes());
 app.listen(3000);

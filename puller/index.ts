@@ -1,4 +1,4 @@
-// import dgram from "dgram"
+import dgram from "dgram"
 import { WispInterface } from "wispjs";
 import { logger } from "./writer.js";
 
@@ -20,18 +20,18 @@ import { logger } from "./writer.js";
 
   await wisp.connect(ghPAT);
 
-  // const datadogPort = parseInt(ddPort, 10);
-  // const ddClient = dgram.createSocket("udp4");
+  const datadogPort = parseInt(ddPort, 10);
+  const ddClient = dgram.createSocket("udp4");
   const receiveMessage = (message: string) => {
     logger.info(message);
 
-    // ddClient.send(message, 0, message.length, datadogPort, "datadog", (err: any) => {
-    //   if (err) {
-    //     const errMessage = `Error sending message to DataDog: ${err}: [[${message}]]`;
-    //     console.error(errMessage);
-    //     logger.error(errMessage);
-    //   }
-    // });
+    ddClient.send(message, 0, message.length, datadogPort, "datadog", (err: any) => {
+      if (err) {
+        const errMessage = `Error sending message to DataDog: ${err}: [[${message}]]`;
+        console.error(errMessage);
+        logger.error(errMessage);
+      }
+    });
   }
 
   wisp.socket.addConsoleListener(receiveMessage);
