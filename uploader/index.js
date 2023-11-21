@@ -1,6 +1,6 @@
 const Koa = require("koa");
 const Router = require("koa-router");
-const bodyParser = require("koa-body-parser");
+const bodyParser = require("koa-bodyparser");
 const { uploadFile } = require("./uploader.js");
 
 const logsDir = "/app/service-logs";
