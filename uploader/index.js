@@ -8,7 +8,7 @@ const logsDir = "/app/service-logs";
 const app = new Koa();
 const router = new Router();
 
-router.post(async function(ctx) {
+router.post("/upload", async function(ctx) {
     console.log(`${ctx.method} ${ctx.url}`);
 
     const body = ctx.request.body;
@@ -21,6 +21,7 @@ router.post(async function(ctx) {
 
     const realPath = `${logsDir}/${body.serverName}/${body.fileName}`;
     const filePath = `${serverName}/${fileName}`;
+    console.log("Uploading...", realPath, filePath);
 
     await uploadFile(realPath, filePath);
 
@@ -30,4 +31,6 @@ router.post(async function(ctx) {
 
 app.use(bodyParser());
 app.use(router.routes());
+
+console.log("Starting uploader service");
 app.listen(3000);
