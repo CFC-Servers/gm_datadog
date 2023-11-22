@@ -326,6 +326,14 @@ logs:
         pattern: >-
           ^nanny-.*$
 
+      # sent_prop2mesh(P11CBaseEntity) thinking for 12.67 ms!!!
+      # trigger_soundscape(P11CBaseEntity) thinking for 15.27 ms!!!
+      # gmod_wire_turret(P11CBaseEntity) thinking for 15.12 ms!!!
+      - type: exclude_at_match
+        name: EntityLongThink
+        pattern: >-
+          ^\w+\(P11CBaseEntity\) thinking for.*$
+
       # ADDON CONFIG STARTS HERE
       # (just change the addons you idiot)
 
