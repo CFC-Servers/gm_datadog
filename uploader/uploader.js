@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 const accountID = process.env.CF_ACCOUNT_ID;
@@ -21,7 +21,10 @@ const S3 = new S3Client({
 
 
 const uploadFile = async (realPath, fileName) => {
+  const stats = await fs.promises.stat(realPath);
+  const fileSize = stats.size;
   const fileStream = fs.createReadStream(realPath);
+
   fileStream.on("end", () => {
     console.log("File read stream finished:", realPath);
   });
@@ -35,7 +38,7 @@ const uploadFile = async (realPath, fileName) => {
     Bucket: "wisp-server-logs",
     Key: fileName,
     Body: fileStream,
-    ContentLength: fileStream.readableLength,
+    ContentLength: fileSize,
   });
 
   console.log(`Uploading: '${realPath}' to '${fileName}'...`);
