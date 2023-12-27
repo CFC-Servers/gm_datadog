@@ -334,6 +334,12 @@ logs:
         pattern: >-
           ^\w+\(P11CBaseEntity\) thinking for.*$
 
+      # [34m[Physgun] [36m[WARN] Player STEAM_0:1:12345678 was going to be punished, but you are in training mode...
+      - type: exclude_at_match
+        name: PhysgunWarn
+        pattern: >-
+          ^\[34m\[Physgun\] \[36m\[WARN\].*$
+
       # ADDON CONFIG STARTS HERE
       # (just change the addons you idiot)
 
