@@ -20,6 +20,7 @@ services:
     networks:
       - default
       - datadog-agent
+    restart: unless-stopped
 
   wisp-logs-uploader:
     build: ./uploader
@@ -34,6 +35,7 @@ services:
     networks:
       - default
       - logs-upload
+    restart: unless-stopped
 
   wisp-puller-cfc3:
     build: ./puller
@@ -49,6 +51,7 @@ services:
       - default
       - datadog-agent
       - logs-upload
+    restart: unless-stopped
 
   wisp-puller-cfcttt:
     build: ./puller
@@ -64,6 +67,7 @@ services:
       - default
       - datadog-agent
       - logs-upload
+    restart: unless-stopped
 
 networks:
   datadog-agent:
