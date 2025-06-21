@@ -1,4 +1,5 @@
 import dgram from "dgram"
+import stripAnsi from 'strip-ansi';
 import { WispInterface } from "wispjs";
 import { logger } from "./writer.js";
 
@@ -23,11 +24,12 @@ import { logger } from "./writer.js";
   const datadogPort = parseInt(ddPort, 10);
   const ddClient = dgram.createSocket("udp4");
   const receiveMessage = (message: string) => {
-    logger.info(message);
+    const clean = stripAnsi(message);
+    logger.info(clean);
 
-    ddClient.send(message, 0, message.length, datadogPort, "datadog", (err: any) => {
+    ddClient.send(clean, 0, clean.length, datadogPort, "datadog", (err: any) => {
       if (err) {
-        const errMessage = `Error sending message to DataDog: ${err}: [[${message}]]`;
+        const errMessage = `Error sending message to DataDog: ${err}: [[${clean}]]`;
         console.error(errMessage);
         logger.error(errMessage);
       }
