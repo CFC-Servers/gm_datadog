@@ -326,6 +326,12 @@ logs:
         pattern: >-
           ^\[resource.AddFile.*\] File .*? didn't exist!$
 
+      # [CHERRY]
+      - type: exclude_at_match
+        name: CherryDetections
+        pattern: >-
+          ^\[CHERRY\].*?$
+
       # Nanny command output
       - type: exclude_at_match
         name: NannyCommandOutput
