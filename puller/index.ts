@@ -17,9 +17,6 @@ import { logger } from "./writer.js";
   if (!ddPort) { throw new Error("DD_PORT environment variable not set"); }
 
   const wisp = new WispInterface(domain, uuid, token);
-  const ghPAT = "";
-
-  await wisp.connect(ghPAT);
 
   const datadogPort = parseInt(ddPort, 10);
   const ddClient = dgram.createSocket("udp4");
