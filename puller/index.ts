@@ -1,5 +1,7 @@
 import dgram from "dgram"
+import stripAnsi from 'strip-ansi';
 import { WispInterface } from "wispjs";
+import { logger } from "./writer.js";
 
 (async () => {
   const domain = process.env.DOMAIN;
@@ -15,17 +17,18 @@ import { WispInterface } from "wispjs";
   if (!ddPort) { throw new Error("DD_PORT environment variable not set"); }
 
   const wisp = new WispInterface(domain, uuid, token);
-  const ghPAT = "";
 
-  await wisp.connect(ghPAT);
-
+  const datadogPort = parseInt(ddPort, 10);
   const ddClient = dgram.createSocket("udp4");
   const receiveMessage = (message: string) => {
-    console.log(`Console: ${message}`);
+    const clean = stripAnsi(message);
+    logger.info(clean);
 
-    ddClient.send(message, 0, message.length, parseInt(ddPort, 10), "datadog", (err: any) => {
+    ddClient.send(clean, 0, clean.length, datadogPort, "datadog", (err: any) => {
       if (err) {
-        console.error(`Error sending message to DataDog: ${err}`);
+        const errMessage = `Error sending message to DataDog: ${err}: [[${clean}]]`;
+        console.error(errMessage);
+        logger.error(errMessage);
       }
     });
   }
